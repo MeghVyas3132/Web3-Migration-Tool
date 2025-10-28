@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Container, Paper, Typography, Button, Box, Grid, Chip, CircularProgress, Alert, Card, CardContent } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import LinkIcon from '@mui/icons-material/Link';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { deploymentService } from '../services/deploymentService';
 
 function DeploymentDetails() {
@@ -11,6 +12,11 @@ function DeploymentDetails() {
   const [deployment, setDeployment] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    loadDeployment();
+  }, [id]);
 
   const loadDeployment = async () => {
     try {
@@ -26,10 +32,11 @@ function DeploymentDetails() {
     }
   };
 
-  useEffect(() => {
-    loadDeployment();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
+  const handleCopy = (text) => {
+    navigator.clipboard.writeText(text);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   if (loading) {
     return (
@@ -53,12 +60,6 @@ function DeploymentDetails() {
   }
 
   const ipfsUrl = `https://gateway.pinata.cloud/ipfs/${deployment.ipfsCID}`;
-  const alternativeUrl = `https://ipfs.io/ipfs/${deployment.ipfsCID}`;
-
-  const handleCopyToClipboard = (url) => {
-    navigator.clipboard.writeText(url);
-    alert('URL copied to clipboard!');
-  };
 
   return (
     <Container maxWidth="md" sx={{ py: 4 }}>
@@ -137,50 +138,19 @@ function DeploymentDetails() {
             <Card sx={{ backgroundColor: 'rgba(102, 126, 234, 0.1)' }}>
               <CardContent>
                 <Typography variant="body2" color="text.secondary" gutterBottom>
-                  Your site is available through IPFS via multiple gateways:
+                  Your site is available through IPFS:
                 </Typography>
-                <Box sx={{ mt: 2, display: 'flex', flexDirection: 'column', gap: 1 }}>
-                  <Box sx={{ display: 'flex', gap: 1 }}>
-                    <Button
-                      variant="contained"
-                      endIcon={<LinkIcon />}
-                      href={ipfsUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      size="small"
-                      fullWidth
-                    >
-                      Open via Pinata Gateway
-                    </Button>
-                    <Button
-                      variant="outlined"
-                      size="small"
-                      onClick={() => handleCopyToClipboard(ipfsUrl)}
-                    >
-                      Copy
-                    </Button>
-                  </Box>
-                  <Box sx={{ display: 'flex', gap: 1 }}>
-                    <Button
-                      variant="contained"
-                      endIcon={<LinkIcon />}
-                      href={alternativeUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      size="small"
-                      fullWidth
-                    >
-                      Open via IPFS.io Gateway
-                    </Button>
-                    <Button
-                      variant="outlined"
-                      size="small"
-                      onClick={() => handleCopyToClipboard(alternativeUrl)}
-                    >
-                      Copy
-                    </Button>
-                  </Box>
-                </Box>
+                <Button
+                  variant="contained"
+                  endIcon={<LinkIcon />}
+                  href={ipfsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  fullWidth
+                  sx={{ mt: 2 }}
+                >
+                  Open Site
+                </Button>
               </CardContent>
             </Card>
           </Grid>
