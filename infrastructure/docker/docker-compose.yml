@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ../../backend
+      dockerfile: ../infrastructure/docker/Dockerfile.backend
+    container_name: web3-migration-backend
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    environment:
+      NODE_ENV: production
+      SUPABASE_URL: ${SUPABASE_URL}
+      SUPABASE_ANON_KEY: ${SUPABASE_ANON_KEY}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRE: 30d
+      IPFS_HOST: ${IPFS_HOST}
+      IPFS_PORT: ${IPFS_PORT}
+      IPFS_PROTOCOL: ${IPFS_PROTOCOL}
+      IPFS_PROJECT_ID: ${IPFS_PROJECT_ID}
+      IPFS_PROJECT_SECRET: ${IPFS_PROJECT_SECRET}
+      IPFS_GATEWAY: ${IPFS_GATEWAY}
+      BASE_DOMAIN: ${BASE_DOMAIN}
+      MAX_FILE_SIZE: 104857600
+      UPLOAD_DIR: ./uploads
+    volumes:
+      - backend_uploads:/app/uploads
+    networks:
+      - web3-network
+
+  frontend:
+    build:
+      context: ../../frontend
+      dockerfile: ../infrastructure/docker/Dockerfile.frontend
+    container_name: web3-migration-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      VITE_API_URL: http://backend:5000/api/v1
+    depends_on:
+      - backend
+    networks:
+      - web3-network
+
+volumes:
+  backend_uploads:
+
+networks:
+  web3-network:
+    driver: bridge

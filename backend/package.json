@@ -1,0 +1,42 @@
+{
+  "name": "web3-migration-tool-backend",
+  "version": "1.0.0",
+  "description": "Backend API for Web3 Migration Tool",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "test": "jest --watchAll --verbose"
+  },
+  "keywords": [
+    "web3",
+    "ipfs",
+    "deployment",
+    "api"
+  ],
+  "author": "Megh Vyas",
+  "license": "MIT",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.76.1",
+    "archiver": "^6.0.1",
+    "axios": "^1.6.2",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
+    "express": "^4.18.2",
+    "express-rate-limit": "^7.1.5",
+    "express-validator": "^7.0.1",
+    "extract-zip": "^2.0.1",
+    "helmet": "^7.1.0",
+    "ipfs-http-client": "^60.0.1",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "winston": "^3.11.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "nodemon": "^3.0.2",
+    "supertest": "^6.3.3"
+  }
+}
