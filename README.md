@@ -30,7 +30,7 @@
 |---------|-------------|
 | 🔗 **GitHub Integration** | Deploy directly from any public GitHub repository |
 | 🤖 **Auto-Build** | Automatic framework detection and building (React, Vue, Angular, Next.js, Svelte) |
-| 🌐 **Custom Subdomains** | Get `yoursite.yourdomain.com` subdomain automatically |
+| 🌐 **Custom Subdomains** | Get `yoursite.mydomain.com` subdomain automatically |
 | 💰 **No Crypto Needed** | Zero crypto knowledge or wallet required |
 | 🎨 **3D Dashboard** | Beautiful Three.js visualization of your deployments |
 | 📦 **IPFS Storage** | Decentralized, censorship-resistant file storage |
