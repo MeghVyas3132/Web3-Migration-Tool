@@ -4,7 +4,6 @@ import { Container, Typography, Grid, Box, Button, CircularProgress } from '@mui
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from 'react-router-dom';
 import DeploymentCard from '../components/DeploymentCard';
-import Scene3D from '../components/Scene3D';
 import { deploymentService } from '../services/deploymentService';
 import {
   fetchDeploymentsStart,
@@ -27,8 +26,10 @@ function Dashboard() {
     try {
       dispatch(fetchDeploymentsStart());
       const data = await deploymentService.getAllDeployments();
+      console.log('Deployments loaded:', data); // Debug log
       dispatch(fetchDeploymentsSuccess(data));
     } catch (error) {
+      console.error('Error loading deployments:', error);
       dispatch(fetchDeploymentsFailure(error.response?.data?.message || 'Failed to load deployments'));
     }
   };
@@ -44,10 +45,6 @@ function Dashboard() {
 
   return (
     <Container maxWidth="xl" sx={{ py: 4 }}>
-      <Box sx={{ mb: 4 }}>
-        <Scene3D />
-      </Box>
-
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
         <Box>
           <Typography variant="h3" gutterBottom fontWeight="bold">

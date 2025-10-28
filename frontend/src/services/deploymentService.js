@@ -3,12 +3,17 @@ import api from './api';
 export const deploymentService = {
   async getAllDeployments() {
     const response = await api.get('/deployments');
-    return response.data;
+    return response.data?.data || [];
+  },
+
+  async getDeployment(id) {
+    const response = await api.get(`/deployments/${id}`);
+    return response.data?.data;
   },
 
   async getDeploymentById(id) {
     const response = await api.get(`/deployments/${id}`);
-    return response.data;
+    return response.data?.data;
   },
 
   async createDeployment(deploymentData) {
@@ -22,11 +27,6 @@ export const deploymentService = {
 
   async deleteDeployment(id) {
     const response = await api.delete(`/deployments/${id}`);
-    return response.data;
-  },
-
-  async checkSubdomainAvailability(subdomain) {
-    const response = await api.post('/subdomains/verify', { subdomain });
     return response.data;
   },
 };

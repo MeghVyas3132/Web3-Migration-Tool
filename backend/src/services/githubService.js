@@ -17,31 +17,63 @@ class GitHubService {
    */
   async cloneRepository(repoUrl, branch = 'main') {
     try {
-      // Ensure temp directory exists
-      await fs.mkdir(this.tempDir, { recursive: true });
+      // Check if git is installed
+      try {
+        await execPromise('git --version');
+        console.log('✅ Git is installed');
+      } catch (error) {
+        throw new Error('Git is not installed on the system');
+      }
+
+      // Ensure temp directory exists and is writable
+      try {
+        await fs.mkdir(this.tempDir, { recursive: true });
+        const testFile = path.join(this.tempDir, '.test');
+        await fs.writeFile(testFile, '');
+        await fs.unlink(testFile);
+        console.log('✅ Temp directory is writable:', this.tempDir);
+      } catch (error) {
+        throw new Error(`Cannot write to temp directory ${this.tempDir}: ${error.message}`);
+      }
 
       // Generate unique directory name
       const repoName = this.extractRepoName(repoUrl);
       const timestamp = Date.now();
       const clonePath = path.join(this.tempDir, `${repoName}-${timestamp}`);
 
-      console.log(`Cloning ${repoUrl} to ${clonePath}...`);
+      console.log(`📦 Cloning ${repoUrl} to ${clonePath}...`);
 
       // Clone repository with specific branch
       const cloneCommand = `git clone --depth 1 --branch ${branch} ${repoUrl} ${clonePath}`;
       
       try {
-        await execPromise(cloneCommand);
+        const { stdout, stderr } = await execPromise(cloneCommand);
+        console.log('Clone output:', stdout);
+        if (stderr) console.warn('Clone warnings:', stderr);
       } catch (error) {
         // If branch doesn't exist, try default branch
-        console.log(`Branch ${branch} not found, trying default branch...`);
+        console.log(`⚠️  Branch ${branch} not found, trying default branch...`);
         const fallbackCommand = `git clone --depth 1 ${repoUrl} ${clonePath}`;
-        await execPromise(fallbackCommand);
+        try {
+          const { stdout, stderr } = await execPromise(fallbackCommand);
+          console.log('Clone output:', stdout);
+          if (stderr) console.warn('Clone warnings:', stderr);
+        } catch (fallbackError) {
+          throw new Error(`Failed to clone with fallback: ${fallbackError.message}`);
+        }
+      }
+
+      // Verify the clone was successful
+      try {
+        await fs.access(path.join(clonePath, '.git'));
+        console.log('✅ Repository cloned successfully');
+      } catch (error) {
+        throw new Error('Repository was not cloned properly');
       }
 
       return clonePath;
     } catch (error) {
-      console.error('Clone repository error:', error);
+      console.error('🚨 Clone repository error:', error);
       throw new Error(`Failed to clone repository: ${error.message}`);
     }
   }

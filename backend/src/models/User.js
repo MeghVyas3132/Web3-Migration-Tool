@@ -46,24 +46,42 @@ class User {
     return data;
   }
 
-  static async findOne(query) {
-    let supabaseQuery = supabase.from('users').select('*');
+  static async findOne({ email, username }) {
+    try {
+      const { data: emailUser, error: emailError } = await supabase
+        .from('users')
+        .select('*')
+        .eq('email', email?.toLowerCase())
+        .maybeSingle();
 
-    if (query.email) {
-      supabaseQuery = supabaseQuery.eq('email', query.email.toLowerCase());
+      if (emailError && emailError.code !== 'PGRST116') throw emailError;
+      if (emailUser) return emailUser;
+
+      if (username) {
+        const { data: usernameUser, error: usernameError } = await supabase
+          .from('users')
+          .select('*')
+          .eq('username', username)
+          .maybeSingle();
+
+        if (usernameError && usernameError.code !== 'PGRST116') throw usernameError;
+        return usernameUser;
+      }
+
+      return null;
+    } catch (error) {
+      console.error('Error in findOne:', error);
+      throw error;
     }
-    if (query.username) {
-      supabaseQuery = supabaseQuery.eq('username', query.username);
-    }
-
-    const { data, error } = await supabaseQuery.single();
-
-    if (error && error.code !== 'PGRST116') throw error;
-    return data;
   }
 
   static async comparePassword(enteredPassword, hashedPassword) {
-    return await bcrypt.compare(enteredPassword, hashedPassword);
+    try {
+      return await bcrypt.compare(enteredPassword, hashedPassword);
+    } catch (error) {
+      console.error('Password comparison error:', error);
+      return false;
+    }
   }
 }
 

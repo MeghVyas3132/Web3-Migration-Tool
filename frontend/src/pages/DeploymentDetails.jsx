@@ -1,20 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import {
-  Container,
-  Paper,
-  Typography,
-  Box,
-  Chip,
-  Button,
-  Grid,
-  Card,
-  CardContent,
-  CircularProgress,
-} from '@mui/material';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { format } from 'date-fns';
+import { Container, Paper, Typography, Button, Box, Grid, Chip, CircularProgress, Alert, Card, CardContent } from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import LinkIcon from '@mui/icons-material/Link';
 import { deploymentService } from '../services/deploymentService';
 
 function DeploymentDetails() {
@@ -22,156 +10,188 @@ function DeploymentDetails() {
   const navigate = useNavigate();
   const [deployment, setDeployment] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  const loadDeployment = async () => {
+    try {
+      setLoading(true);
+      const data = await deploymentService.getDeployment(id);
+      setDeployment(data);
+      setError('');
+    } catch (err) {
+      setError('Failed to load deployment details');
+      console.error('Error loading deployment:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     loadDeployment();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
-  const loadDeployment = async () => {
-    try {
-      const data = await deploymentService.getDeploymentById(id);
-      setDeployment(data);
-    } catch (error) {
-      console.error('Failed to load deployment:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleDelete = async () => {
-    if (window.confirm('Are you sure you want to delete this deployment?')) {
-      try {
-        await deploymentService.deleteDeployment(id);
-        navigate('/dashboard');
-      } catch (error) {
-        console.error('Failed to delete deployment:', error);
-      }
-    }
-  };
-
   if (loading) {
     return (
-      <Container sx={{ py: 8, textAlign: 'center' }}>
-        <CircularProgress />
+      <Container maxWidth="md" sx={{ py: 4 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', py: 8 }}>
+          <CircularProgress />
+        </Box>
       </Container>
     );
   }
 
   if (!deployment) {
     return (
-      <Container sx={{ py: 8, textAlign: 'center' }}>
-        <Typography variant="h6">Deployment not found</Typography>
+      <Container maxWidth="md" sx={{ py: 4 }}>
+        <Alert severity="error">Deployment not found</Alert>
+        <Button startIcon={<ArrowBackIcon />} onClick={() => navigate('/')} sx={{ mt: 2 }}>
+          Back to Deployments
+        </Button>
       </Container>
     );
   }
 
+  const ipfsUrl = `https://gateway.pinata.cloud/ipfs/${deployment.ipfsCID}`;
+  const alternativeUrl = `https://ipfs.io/ipfs/${deployment.ipfsCID}`;
+
+  const handleCopyToClipboard = (url) => {
+    navigator.clipboard.writeText(url);
+    alert('URL copied to clipboard!');
+  };
+
   return (
-    <Container maxWidth="lg" sx={{ py: 4 }}>
-      <Paper sx={{ p: 4 }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', mb: 4 }}>
-          <Box>
-            <Typography variant="h4" gutterBottom fontWeight="bold">
-              {deployment.subdomain}.web3host.xyz
+    <Container maxWidth="md" sx={{ py: 4 }}>
+      <Button startIcon={<ArrowBackIcon />} onClick={() => navigate('/')} sx={{ mb: 3 }}>
+        Back to Deployments
+      </Button>
+
+      <Paper sx={{ p: 4, mb: 3 }}>
+        {error && <Alert severity="error" sx={{ mb: 3 }}>{error}</Alert>}
+
+        <Typography variant="h4" gutterBottom fontWeight="bold">
+          Deployment Details
+        </Typography>
+
+        <Grid container spacing={3} sx={{ mt: 1 }}>
+          <Grid item xs={12} sm={6}>
+            <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+              Status
             </Typography>
-            <Box sx={{ display: 'flex', gap: 1, mb: 2 }}>
-              <Chip label={deployment.framework} color="primary" variant="outlined" />
-              <Chip
-                label={deployment.status}
-                color={deployment.status === 'active' ? 'success' : 'warning'}
-              />
-            </Box>
-            <Typography variant="body2" color="text.secondary">
-              Deployed on {format(new Date(deployment.createdAt), 'MMMM dd, yyyy at HH:mm')}
-            </Typography>
-          </Box>
-          <Box sx={{ display: 'flex', gap: 2 }}>
-            <Button
-              variant="contained"
-              startIcon={<OpenInNewIcon />}
-              href={`https://${deployment.subdomain}.web3host.xyz`}
-              target="_blank"
-            >
-              Visit Site
-            </Button>
-            <Button
+            <Chip
+              label={deployment.status || 'Active'}
+              color={deployment.status === 'active' ? 'success' : 'default'}
               variant="outlined"
-              color="error"
-              startIcon={<DeleteIcon />}
-              onClick={handleDelete}
+            />
+          </Grid>
+
+          <Grid item xs={12} sm={6}>
+            <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+              Framework
+            </Typography>
+            <Typography variant="body2" fontWeight="500">
+              {deployment.framework || 'Unknown'}
+            </Typography>
+          </Grid>
+
+          <Grid item xs={12}>
+            <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+              GitHub Repository
+            </Typography>
+            <Typography variant="body2" sx={{ wordBreak: 'break-all' }}>
+              {deployment.githubUrl}
+            </Typography>
+          </Grid>
+
+          <Grid item xs={12} sm={6}>
+            <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+              Branch
+            </Typography>
+            <Typography variant="body2" fontWeight="500">
+              {deployment.branch || 'main'}
+            </Typography>
+          </Grid>
+
+          <Grid item xs={12}>
+            <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+              IPFS Hash (CID)
+            </Typography>
+            <Typography
+              variant="body2"
+              sx={{
+                fontFamily: 'monospace',
+                backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                p: 1,
+                borderRadius: 1,
+                wordBreak: 'break-all',
+              }}
             >
-              Delete
-            </Button>
-          </Box>
-        </Box>
+              {deployment.ipfsCID}
+            </Typography>
+          </Grid>
 
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={6}>
-            <Card>
+          <Grid item xs={12}>
+            <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+              Access Your Site
+            </Typography>
+            <Card sx={{ backgroundColor: 'rgba(102, 126, 234, 0.1)' }}>
               <CardContent>
-                <Typography variant="h6" gutterBottom>
-                  Deployment Info
+                <Typography variant="body2" color="text.secondary" gutterBottom>
+                  Your site is available through IPFS via multiple gateways:
                 </Typography>
-                <Box sx={{ mt: 2 }}>
-                  <Typography variant="body2" color="text.secondary" gutterBottom>
-                    IPFS CID
-                  </Typography>
-                  <Typography variant="body1" sx={{ wordBreak: 'break-all', mb: 2 }}>
-                    {deployment.ipfsCID}
-                  </Typography>
-
-                  <Typography variant="body2" color="text.secondary" gutterBottom>
-                    IPFS Gateway URL
-                  </Typography>
-                  <Typography variant="body1" sx={{ wordBreak: 'break-all', mb: 2 }}>
-                    https://ipfs.io/ipfs/{deployment.ipfsCID}
-                  </Typography>
-
-                  <Typography variant="body2" color="text.secondary" gutterBottom>
-                    Framework
-                  </Typography>
-                  <Typography variant="body1">{deployment.framework}</Typography>
+                <Box sx={{ mt: 2, display: 'flex', flexDirection: 'column', gap: 1 }}>
+                  <Box sx={{ display: 'flex', gap: 1 }}>
+                    <Button
+                      variant="contained"
+                      endIcon={<LinkIcon />}
+                      href={ipfsUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      size="small"
+                      fullWidth
+                    >
+                      Open via Pinata Gateway
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      size="small"
+                      onClick={() => handleCopyToClipboard(ipfsUrl)}
+                    >
+                      Copy
+                    </Button>
+                  </Box>
+                  <Box sx={{ display: 'flex', gap: 1 }}>
+                    <Button
+                      variant="contained"
+                      endIcon={<LinkIcon />}
+                      href={alternativeUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      size="small"
+                      fullWidth
+                    >
+                      Open via IPFS.io Gateway
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      size="small"
+                      onClick={() => handleCopyToClipboard(alternativeUrl)}
+                    >
+                      Copy
+                    </Button>
+                  </Box>
                 </Box>
               </CardContent>
             </Card>
           </Grid>
 
-          <Grid item xs={12} md={6}>
-            <Card>
-              <CardContent>
-                <Typography variant="h6" gutterBottom>
-                  Performance Metrics
-                </Typography>
-                <Box sx={{ mt: 2 }}>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
-                    <Typography variant="body2" color="text.secondary">
-                      Uptime
-                    </Typography>
-                    <Typography variant="body1" fontWeight="bold">
-                      {deployment.metrics?.uptime || 99.9}%
-                    </Typography>
-                  </Box>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
-                    <Typography variant="body2" color="text.secondary">
-                      Total Visits
-                    </Typography>
-                    <Typography variant="body1" fontWeight="bold">
-                      {deployment.metrics?.totalVisits || 0}
-                    </Typography>
-                  </Box>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Typography variant="body2" color="text.secondary">
-                      Last Pinged
-                    </Typography>
-                    <Typography variant="body1">
-                      {deployment.metrics?.lastPinged
-                        ? format(new Date(deployment.metrics.lastPinged), 'MMM dd, HH:mm')
-                        : 'N/A'}
-                    </Typography>
-                  </Box>
-                </Box>
-              </CardContent>
-            </Card>
+          <Grid item xs={12}>
+            <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+              Created
+            </Typography>
+            <Typography variant="body2" fontWeight="500">
+              {deployment.createdAt ? new Date(deployment.createdAt).toLocaleString() : 'N/A'}
+            </Typography>
           </Grid>
         </Grid>
       </Paper>

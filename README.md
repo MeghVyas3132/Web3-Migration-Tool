@@ -52,7 +52,7 @@
 - **Node.js** + **Express** - REST API
 - **Supabase (PostgreSQL)** - Cloud database
 - **JWT** - Authentication
-- **IPFS (Infura)** - Decentralized storage
+- **IPFS (Pinata)** - Decentralized storage
 - **Nginx** - Subdomain routing (for AWS deployment)
 
 ### Infrastructure
@@ -69,7 +69,7 @@
 - Node.js 18+
 - Git
 - Supabase account (free at [supabase.com](https://supabase.com))
-- Infura IPFS account (free at [infura.io](https://infura.io))
+- Pinata IPFS account (free at [pinata.cloud](https://pinata.cloud))
 
 ### 1. Clone Repository
 ```bash
@@ -102,15 +102,15 @@ SUPABASE_ANON_KEY=your-anon-key-here
 JWT_SECRET=your-generated-secret-here
 JWT_EXPIRE=30d
 
-# Infura IPFS (Get from https://infura.io)
-IPFS_HOST=ipfs.infura.io
-IPFS_PORT=5001
-IPFS_PROTOCOL=https
-IPFS_PROJECT_ID=your-project-id
-IPFS_PROJECT_SECRET=your-project-secret
+# Pinata IPFS (Get from https://pinata.cloud)
+# Option 1: Use API Key/Secret
+PINATA_API_KEY=your-api-key
+PINATA_API_SECRET=your-api-secret
+# Option 2: Use JWT (recommended)
+PINATA_JWT=your-jwt-token
 
 # IPFS Gateway
-IPFS_GATEWAY=https://ipfs.io/ipfs
+IPFS_GATEWAY=https://gateway.pinata.cloud/ipfs
 
 # Nginx (for production)
 BASE_DOMAIN=localhost
@@ -128,8 +128,9 @@ NGINX_ENABLED_PATH=/etc/nginx/sites-enabled
 
 2. **Run Database Schema**
    - Go to **SQL Editor** in Supabase dashboard
-   - Copy contents of `backend/supabase-schema.sql`
-   - Paste and click **RUN**
+   - Copy **entire contents** of `backend/supabase-schema.sql`
+   - Paste into SQL Editor and click **RUN**
+   - This creates all tables, indexes, triggers, and security policies in one go
 
 ### 4. Setup Frontend
 ```bash
@@ -166,14 +167,22 @@ npm run dev
    - **anon public** key → `SUPABASE_ANON_KEY`
 5. Go to **SQL Editor** → Paste `backend/supabase-schema.sql` → **RUN**
 
-### Getting Infura IPFS Credentials
+### Getting Pinata IPFS Credentials
 
-1. **Sign up** at [infura.io](https://infura.io)
-2. **Create New Key** → Select **IPFS**
-3. Name it (e.g., "Web3 Migration Tool")
-4. Copy:
-   - **PROJECT ID** → `IPFS_PROJECT_ID`
-   - **PROJECT SECRET** → `IPFS_PROJECT_SECRET`
+1. **Sign up** at [pinata.cloud](https://pinata.cloud)
+2. Click your profile → **API Keys**
+3. Click **"New Key"** button
+4. Select permissions:
+   - ✅ **pinFileToIPFS**
+   - ✅ **pinJSONToIPFS**
+5. Name it (e.g., "Web3 Migration Tool")
+6. Click **"Create Key"**
+7. Copy credentials:
+   - **API Key** → `PINATA_API_KEY`
+   - **API Secret** → `PINATA_API_SECRET`
+   - Or use **JWT** → `PINATA_JWT` (recommended)
+
+⚠️ **Important**: Save your API Secret immediately - it's only shown once!
 
 ### Generate JWT Secret
 ```bash
@@ -426,7 +435,7 @@ openssl rand -base64 32
 
 2. **Protect Credentials**
    - Keep Supabase keys private
-   - Keep Infura keys private
+   - Keep Pinata keys private
    - Use different secrets for dev/prod
 
 3. **Update `.gitignore`**
@@ -496,8 +505,8 @@ lsof -ti:5000 | xargs kill -9
 - Try adding `.git`: `https://github.com/user/repo.git`
 
 **IPFS upload failed**
-- Check Infura credentials
-- Verify project is active on Infura dashboard
+- Check Pinata credentials
+- Verify project is active on Pinata dashboard
 - Try uploading a small file first
 
 ### Common Fixes
@@ -625,7 +634,7 @@ We welcome contributions!
                                ▼                 ▼
                     ┌─────────────────┐  ┌──────────────┐
                     │                 │  │              │
-                    │  GitHub API     │  │  IPFS/Infura │
+                    │  GitHub API     │  │  IPFS/Pinata │
                     │  (Clone Repos)  │  │  (Storage)   │
                     │                 │  │              │
                     └─────────────────┘  └──────────────┘
@@ -651,7 +660,7 @@ Save to Supabase → Return Deployment URL
 ### For IPFS/Web3
 - [IPFS Documentation](https://docs.ipfs.tech)
 - [What is IPFS?](https://docs.ipfs.tech/concepts/what-is-ipfs/)
-- [Infura IPFS](https://docs.infura.io/infura/networks/ipfs)
+- [Pinata IPFS](https://docs.pinata.cloud/)
 
 ### For Deployment
 - [Nginx Beginner's Guide](https://nginx.org/en/docs/beginners_guide.html)
@@ -701,7 +710,7 @@ SOFTWARE.
 ## 🙏 Acknowledgments
 
 - **Supabase** - Amazing PostgreSQL database platform
-- **Infura** - IPFS infrastructure
+- **Pinata** - IPFS infrastructure
 - **React Three Fiber** - 3D graphics in React
 - **Material-UI** - Beautiful React components
 - **Vite** - Lightning-fast build tool

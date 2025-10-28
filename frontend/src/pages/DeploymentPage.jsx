@@ -5,7 +5,6 @@ import {
   Container,
   Paper,
   Typography,
-  TextField,
   Button,
   Box,
   Stepper,
@@ -22,7 +21,7 @@ import {
   createDeploymentFailure,
 } from '../store/slices/deploymentSlice';
 
-const steps = ['GitHub Repository', 'Configure', 'Deploy'];
+const steps = ['GitHub Repository', 'Deploy'];
 
 function DeploymentPage() {
   const navigate = useNavigate();
@@ -30,7 +29,6 @@ function DeploymentPage() {
   const [activeStep, setActiveStep] = useState(0);
   const [githubUrl, setGithubUrl] = useState('');
   const [branch, setBranch] = useState('main');
-  const [subdomain, setSubdomain] = useState('');
   const [error, setError] = useState('');
   const [deploying, setDeploying] = useState(false);
   const [deploymentStatus, setDeploymentStatus] = useState('');
@@ -43,23 +41,6 @@ function DeploymentPage() {
 
   const handleNext = async () => {
     if (activeStep === 1) {
-      // Validate subdomain
-      if (!subdomain) {
-        setError('Please enter a subdomain');
-        return;
-      }
-      try {
-        const available = await deploymentService.checkSubdomainAvailability(subdomain);
-        if (!available.available) {
-          setError('Subdomain is already taken');
-          return;
-        }
-        setError('');
-        setActiveStep(2);
-      } catch (err) {
-        setError(err.response?.data?.message || 'Failed to check subdomain');
-      }
-    } else if (activeStep === 2) {
       handleDeploy();
     }
   };
@@ -72,8 +53,7 @@ function DeploymentPage() {
 
       const deploymentData = {
         githubUrl,
-        branch,
-        subdomain,
+        branch
       };
 
       setDeploymentStatus('Building project...');
@@ -108,10 +88,10 @@ function DeploymentPage() {
     <Container maxWidth="md" sx={{ py: 4 }}>
       <Paper sx={{ p: 4 }}>
         <Typography variant="h4" gutterBottom fontWeight="bold" textAlign="center">
-          Deploy to Web3
+          Deploy to IPFS
         </Typography>
         <Typography variant="body1" color="text.secondary" textAlign="center" sx={{ mb: 4 }}>
-          Deploy your GitHub repository to the decentralized web
+          Deploy your GitHub repository to IPFS
         </Typography>
 
         <Stepper activeStep={activeStep} sx={{ mb: 4 }}>
@@ -133,36 +113,6 @@ function DeploymentPage() {
         )}
 
         {activeStep === 1 && (
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-            <Alert severity="info">
-              <Typography variant="body2">
-                <strong>Repository:</strong> {githubUrl}
-              </Typography>
-              <Typography variant="body2">
-                <strong>Branch:</strong> {branch}
-              </Typography>
-            </Alert>
-            
-            <TextField
-              label="Subdomain"
-              value={subdomain}
-              onChange={(e) => setSubdomain(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ''))}
-              helperText="Your site will be available at [subdomain].yourdomain.com"
-              placeholder="my-awesome-app"
-              fullWidth
-              required
-            />
-            
-            <Alert severity="warning">
-              <Typography variant="body2">
-                <strong>Note:</strong> We&apos;ll automatically detect your framework and run the build process.
-                Supported: React, Vue, Angular, Next.js, and more!
-              </Typography>
-            </Alert>
-          </Box>
-        )}
-
-        {activeStep === 2 && (
           <Box sx={{ textAlign: 'center' }}>
             {deploying ? (
               <Box>
@@ -189,9 +139,6 @@ function DeploymentPage() {
                   <Typography variant="body2" color="text.secondary" align="left">
                     ⏳ Upload to IPFS
                   </Typography>
-                  <Typography variant="body2" color="text.secondary" align="left">
-                    ⏳ Configure subdomain
-                  </Typography>
                 </Box>
               </Box>
             ) : (
@@ -206,9 +153,6 @@ function DeploymentPage() {
                   <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
                     <strong>Branch:</strong> {branch}
                   </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    <strong>Subdomain:</strong> {subdomain}.yourdomain.com
-                  </Typography>
                 </Box>
               </Box>
             )}
@@ -222,11 +166,7 @@ function DeploymentPage() {
           <Button
             variant="contained"
             onClick={handleNext}
-            disabled={
-              (activeStep === 0 && !githubUrl) ||
-              (activeStep === 1 && !subdomain) ||
-              deploying
-            }
+            disabled={(activeStep === 0 && !githubUrl) || deploying}
           >
             {activeStep === steps.length - 1 ? 'Deploy Now' : 'Next'}
           </Button>

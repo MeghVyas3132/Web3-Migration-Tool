@@ -6,9 +6,6 @@ const {
   createDeployment,
   deleteDeployment,
 } = require('../controllers/deploymentController');
-const auth = require('../middleware/auth');
-
-router.use(auth); // All routes require authentication
 
 router.route('/')
   .get(getDeployments)

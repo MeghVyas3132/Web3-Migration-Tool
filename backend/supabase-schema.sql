@@ -1,25 +1,20 @@
--- Web3 Migration Tool - Supabase Schema
--- Run this SQL in your Supabase SQL Editor
+-- ============================================================================
+-- Web3 Migration Tool - Complete Supabase Database Schema
+-- ============================================================================
+-- This script creates all necessary tables, indexes, triggers, and policies
+-- Copy and paste this entire file into Supabase SQL Editor and run it
+-- ============================================================================
 
--- Enable UUID extension
+-- Enable UUID extension for generating unique IDs
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
--- Create users table
-CREATE TABLE IF NOT EXISTS users (
-  id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-  username VARCHAR(30) UNIQUE NOT NULL,
-  email VARCHAR(255) UNIQUE NOT NULL,
-  password VARCHAR(255) NOT NULL,
-  role VARCHAR(20) DEFAULT 'user',
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
+-- ============================================================================
+-- TABLES
+-- ============================================================================
 
--- Create deployments table
+-- Deployments table: Stores all deployment information including GitHub integration
 CREATE TABLE IF NOT EXISTS deployments (
   id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-  user_id UUID REFERENCES users(id) ON DELETE CASCADE,
-  subdomain VARCHAR(63) UNIQUE NOT NULL,
   ipfs_cid VARCHAR(255) NOT NULL,
   framework VARCHAR(50) NOT NULL,
   build_command TEXT DEFAULT '',
@@ -35,14 +30,19 @@ CREATE TABLE IF NOT EXISTS deployments (
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- Create indexes for better performance
-CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
-CREATE INDEX IF NOT EXISTS idx_users_username ON users(username);
-CREATE INDEX IF NOT EXISTS idx_deployments_user_id ON deployments(user_id);
-CREATE INDEX IF NOT EXISTS idx_deployments_subdomain ON deployments(subdomain);
-CREATE INDEX IF NOT EXISTS idx_deployments_status ON deployments(status);
+-- ============================================================================
+-- INDEXES (for better query performance)
+-- ============================================================================
 
--- Create updated_at trigger function
+-- Deployments table indexes
+CREATE INDEX IF NOT EXISTS idx_deployments_status ON deployments(status);
+CREATE INDEX IF NOT EXISTS idx_deployments_github_url ON deployments(github_url);
+
+-- ============================================================================
+-- TRIGGERS (for automatic timestamp updates)
+-- ============================================================================
+
+-- Function to update updated_at timestamp
 CREATE OR REPLACE FUNCTION update_updated_at_column()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -51,38 +51,53 @@ BEGIN
 END;
 $$ language 'plpgsql';
 
--- Create triggers for updated_at
-CREATE TRIGGER update_users_updated_at BEFORE UPDATE ON users
-    FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
-
+-- Apply trigger to deployments table
 CREATE TRIGGER update_deployments_updated_at BEFORE UPDATE ON deployments
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
--- Enable Row Level Security (RLS)
-ALTER TABLE users ENABLE ROW LEVEL SECURITY;
+-- ============================================================================
+-- ROW LEVEL SECURITY (RLS)
+-- ============================================================================
+
+-- Enable RLS on deployments table
 ALTER TABLE deployments ENABLE ROW LEVEL SECURITY;
 
--- Create policies for users table
-CREATE POLICY "Users can view their own data" ON users
+-- ============================================================================
+-- SECURITY POLICIES
+-- ============================================================================
+
+-- Deployments table policies - Allow public read/write for development
+-- (No authentication system, so anyone can access)
+CREATE POLICY "Anyone can view deployments" ON deployments
     FOR SELECT USING (true);
 
-CREATE POLICY "Users can update their own data" ON users
-    FOR UPDATE USING (auth.uid()::text = id::text);
+CREATE POLICY "Anyone can create deployments" ON deployments
+    FOR INSERT WITH CHECK (true);
 
--- Create policies for deployments table
-CREATE POLICY "Users can view their own deployments" ON deployments
-    FOR SELECT USING (auth.uid()::text = user_id::text);
+CREATE POLICY "Deployments can be updated by anyone" ON deployments
+    FOR UPDATE USING (true);
 
-CREATE POLICY "Users can insert their own deployments" ON deployments
-    FOR INSERT WITH CHECK (auth.uid()::text = user_id::text);
+CREATE POLICY "Deployments can be deleted by anyone" ON deployments
+    FOR DELETE USING (true);
 
-CREATE POLICY "Users can update their own deployments" ON deployments
-    FOR UPDATE USING (auth.uid()::text = user_id::text);
+-- ============================================================================
+-- PERMISSIONS
+-- ============================================================================
 
-CREATE POLICY "Users can delete their own deployments" ON deployments
-    FOR DELETE USING (auth.uid()::text = user_id::text);
-
--- Grant permissions
+-- Grant necessary permissions to Supabase roles
 GRANT USAGE ON SCHEMA public TO anon, authenticated;
 GRANT ALL ON ALL TABLES IN SCHEMA public TO anon, authenticated;
 GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO anon, authenticated;
+
+-- ============================================================================
+-- SUCCESS MESSAGE
+-- ============================================================================
+
+DO $$ 
+BEGIN 
+    RAISE NOTICE '✅ Database schema created successfully!';
+    RAISE NOTICE '📊 Tables: deployments (no auth, public access)';
+    RAISE NOTICE '🔐 Row Level Security: Enabled (public policies)';
+    RAISE NOTICE '⚡ Indexes: Optimized for performance';
+    RAISE NOTICE '🔄 Triggers: Auto-update timestamps';
+END $$;

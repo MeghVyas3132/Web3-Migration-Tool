@@ -1,71 +1,77 @@
 const Deployment = require('../models/Deployment');
 const ipfsService = require('../services/ipfsService');
-const nginxService = require('../services/dnsService'); // Now using Nginx service
 const githubService = require('../services/githubService');
 const fs = require('fs').promises;
 
-// @desc    Get all deployments for user
+// @desc    Get all deployments
 // @route   GET /api/v1/deployments
-// @access  Private
+// @access  Public
 exports.getDeployments = async (req, res) => {
   try {
-    const deployments = await Deployment.find({ userId: req.user.id });
-
-    res.json(deployments);
+    const deployments = await Deployment.find();
+    res.json({
+      success: true,
+      data: deployments
+    });
   } catch (error) {
     console.error('Get deployments error:', error);
-    res.status(500).json({ message: 'Error fetching deployments', error: error.message });
+    res.status(500).json({ 
+      success: false,
+      message: 'Error fetching deployments'
+    });
   }
 };
 
 // @desc    Get single deployment
 // @route   GET /api/v1/deployments/:id
-// @access  Private
+// @access  Public
 exports.getDeployment = async (req, res) => {
   try {
-    const deployment = await Deployment.findOne({
-      _id: req.params.id,
-      userId: req.user.id,
-    });
+    const deployment = await Deployment.findById(req.params.id);
 
     if (!deployment) {
-      return res.status(404).json({ message: 'Deployment not found' });
+      return res.status(404).json({
+        success: false,
+        message: 'Deployment not found'
+      });
     }
 
-    res.json(deployment);
+    res.json({
+      success: true,
+      data: deployment
+    });
   } catch (error) {
     console.error('Get deployment error:', error);
-    res.status(500).json({ message: 'Error fetching deployment', error: error.message });
+    res.status(500).json({
+      success: false,
+      message: 'Error fetching deployment'
+    });
   }
 };
 
 // @desc    Create new deployment from GitHub
 // @route   POST /api/v1/deployments
-// @access  Private
+// @access  Public
 exports.createDeployment = async (req, res) => {
   let projectPath = null;
 
   try {
-    const { subdomain, githubUrl, branch = 'main' } = req.body;
+    const { githubUrl, branch = 'main' } = req.body;
 
     // Validate inputs
-    if (!subdomain) {
-      return res.status(400).json({ message: 'Subdomain is required' });
-    }
-
     if (!githubUrl) {
-      return res.status(400).json({ message: 'GitHub repository URL is required' });
+      return res.status(400).json({
+        success: false,
+        message: 'GitHub repository URL is required'
+      });
     }
 
     // Validate GitHub URL
     if (!githubService.isValidGitHubUrl(githubUrl)) {
-      return res.status(400).json({ message: 'Invalid GitHub URL. Please provide a valid GitHub repository URL.' });
-    }
-
-    // Check if subdomain is available
-    const existingDeployment = await Deployment.findOne({ subdomain });
-    if (existingDeployment) {
-      return res.status(400).json({ message: 'Subdomain already taken' });
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid GitHub URL. Please provide a valid GitHub repository URL.'
+      });
     }
 
     // Normalize GitHub URL
@@ -95,8 +101,6 @@ exports.createDeployment = async (req, res) => {
 
     // Create deployment record
     const deployment = await Deployment.create({
-      userId: req.user.id,
-      subdomain,
       ipfsCID,
       framework: projectMetadata.framework,
       buildCommand: projectMetadata.buildCommand,
@@ -104,14 +108,6 @@ exports.createDeployment = async (req, res) => {
       branch,
       status: 'active',
     });
-
-    // Configure Nginx (in production, this will create actual Nginx config)
-    try {
-      await nginxService.configureDNS(subdomain, ipfsCID);
-    } catch (nginxError) {
-      console.error('Nginx configuration error:', nginxError);
-      // Continue even if Nginx config fails (for development)
-    }
 
     // Clean up cloned repository
     await githubService.cleanup(projectPath);
@@ -129,9 +125,11 @@ exports.createDeployment = async (req, res) => {
       }
     }
 
+    console.error('🚨 Full deployment error:', error);
     res.status(500).json({ 
       message: 'Error creating deployment', 
-      error: error.message 
+      error: error.message,
+      details: process.env.NODE_ENV === 'development' ? error.stack : undefined
     });
   }
 };
@@ -143,21 +141,15 @@ exports.deleteDeployment = async (req, res) => {
   try {
     const deployment = await Deployment.findOne({
       _id: req.params.id,
-      userId: req.user.id,
     });
 
     if (!deployment) {
       return res.status(404).json({ message: 'Deployment not found' });
     }
 
-    // Remove Nginx configuration (in production)
-    try {
-      await nginxService.removeDNS(deployment.subdomain);
-    } catch (nginxError) {
-      console.error('Nginx removal error:', nginxError);
-    }
+    // No need to remove Nginx configuration anymore as we're not using subdomains
 
-    await Deployment.deleteOne({ _id: req.params.id, userId: req.user.id });
+    await Deployment.deleteOne({ _id: req.params.id });
 
     res.json({ message: 'Deployment deleted successfully' });
   } catch (error) {
