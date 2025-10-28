@@ -3,7 +3,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Container, Paper, Typography, Button, Box, Grid, Chip, CircularProgress, Alert, Card, CardContent } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import LinkIcon from '@mui/icons-material/Link';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { deploymentService } from '../services/deploymentService';
 
 function DeploymentDetails() {
@@ -12,11 +11,6 @@ function DeploymentDetails() {
   const [deployment, setDeployment] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [copied, setCopied] = useState(false);
-
-  useEffect(() => {
-    loadDeployment();
-  }, [id]);
 
   const loadDeployment = async () => {
     try {
@@ -32,11 +26,10 @@ function DeploymentDetails() {
     }
   };
 
-  const handleCopy = (text) => {
-    navigator.clipboard.writeText(text);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
+  useEffect(() => {
+    loadDeployment();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
 
   if (loading) {
     return (
