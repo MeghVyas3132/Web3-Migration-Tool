@@ -1,146 +1,242 @@
-# 🚀 Web3 Migration Tool
+# 🌐 Web3 Migration Tool
 
-> Deploy your frontend applications from GitHub to decentralized IPFS hosting - No crypto wallet required!
+<div align="center">
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Made with React](https://img.shields.io/badge/Made%20with-React-61DAFB.svg)](https://reactjs.org/)
-[![IPFS](https://img.shields.io/badge/IPFS-Powered-65c2cb.svg)](https://ipfs.tech/)
+![Web3 Migration Tool](https://img.shields.io/badge/Web3_Deployment-Platform-blueviolet?style=flat-square&logo=ethereum)
+![Status](https://img.shields.io/badge/Status-Active-success?style=flat-square)
+![Node Version](https://img.shields.io/badge/Node-18+-green?style=flat-square&logo=node.js)
+![React Version](https://img.shields.io/badge/React-18+-blue?style=flat-square&logo=react)
+![IPFS](https://img.shields.io/badge/IPFS-Enabled-65c2cb?style=flat-square&logo=ipfs)
+![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)
 
-**🎯 What is this?** A deployment platform that helps you migrate from Web2 hosting (AWS, DigitalOcean) to Web3 decentralized storage (IPFS). Just paste your GitHub URL, and we handle the rest!
+### 🚀 Deploy Frontend Applications to Decentralized IPFS in Seconds
 
----
+**Transform your Web2 deployments into Web3 infrastructure**
 
-## Table of Contents
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Quick Start](#quick-start)
-- [Setup Guide](#setup-guide)
-- [How It Works](#how-it-works)
-- [API Documentation](#api-documentation)
-- [Deployment](#deployment)
-- [Security](#security)
-- [Troubleshooting](#troubleshooting)
-- [Contributing](#contributing)
+[**Live Demo**](#) • [**Documentation**](#) • [**Report Bug**](#) • [**Request Feature**](#)
+
+</div>
 
 ---
 
-## ✨ Features
+## 📋 Table of Contents
 
-| Feature | Description |
-|---------|-------------|
-| 🔗 **GitHub Integration** | Deploy directly from any public GitHub repository |
-| 🤖 **Auto-Build** | Automatic framework detection and building (React, Vue, Angular, Next.js, Svelte) |
-| 🌐 **Custom Subdomains** | Get `yoursite.mydomain.com` subdomain automatically |
-| 💰 **No Crypto Needed** | Zero crypto knowledge or wallet required |
-| 🎨 **3D Dashboard** | Beautiful Three.js visualization of your deployments |
-| 📦 **IPFS Storage** | Decentralized, censorship-resistant file storage |
-| 🔐 **JWT Auth** | Secure authentication system |
-| 📊 **Real-time Status** | Live deployment progress and health monitoring |
+- [🎯 Overview](#-overview)
+- [✨ Key Features](#-key-features)
+- [🛠️ Technology Stack](#-technology-stack)
+- [⚡ Quick Start](#-quick-start)
+- [📖 Complete Setup Guide](#-complete-setup-guide)
+- [🔄 How It Works](#-how-it-works)
+- [📡 API Reference](#-api-reference)
+- [🚀 Production Deployment](#-production-deployment)
+- [🔒 Security & Best Practices](#-security--best-practices)
+- [🐛 Troubleshooting](#-troubleshooting)
+- [🤝 Contributing](#-contributing)
+- [📄 License](#-license)
 
 ---
 
-## 🛠️ Tech Stack
+## 🎯 Overview
 
-### Frontend
-- **React 18** + **Vite** - Fast development and building
-- **Material-UI** - Beautiful UI components
-- **Three.js** + **React Three Fiber** - 3D visualizations
-- **Redux Toolkit** - State management
-- **React Router** - Navigation
+**Web3 Migration Tool** is a revolutionary deployment platform that enables developers to migrate their frontend applications from centralized Web2 hosting (AWS, DigitalOcean, Vercel) to decentralized Web3 infrastructure powered by IPFS.
 
-### Backend
-- **Node.js** + **Express** - REST API
-- **Supabase (PostgreSQL)** - Cloud database
-- **JWT** - Authentication
-- **IPFS (Pinata)** - Decentralized storage
-- **Nginx** - Subdomain routing (for AWS deployment)
+### What Makes It Special?
 
-### Infrastructure
-- **Docker** - Containerization
-- **GitHub Actions** - CI/CD
-- **PM2** - Process management
-- **AWS EC2** - Production hosting
+✅ **Zero Crypto Knowledge Required** - No wallet, no tokens, no blockchain interactions  
+✅ **One-Click Deployment** - Paste GitHub URL → Get live link  
+✅ **Framework Detection** - Auto-detects React, Vue, Angular, Next.js, etc.  
+✅ **Decentralized Storage** - Content stored across IPFS network  
+✅ **Custom Domains** - Deploy with your own domain names  
+✅ **Real-time Monitoring** - Live build status and deployment health  
+
+---
+
+## ✨ Key Features
+
+### 🔗 GitHub Integration
+- Deploy any public GitHub repository
+- Support for custom branches
+- Automatic repository cloning
+- Build configuration auto-detection
+
+### 🤖 Framework Auto-Detection
+Automatically identifies and builds:
+- React (Create React App & Vite)
+- Vue.js (2 & 3)
+- Angular (14+)
+- Next.js (Static Export)
+- Svelte
+- Plain HTML/CSS/JS
+
+### 📦 IPFS/Web3 Deployment
+- Decentralized file storage
+- Content addressing (IPFS Hash/CID)
+- Multiple gateway access points
+- Permanent content hosting
+- No monthly fees (pay-per-use)
+
+### 🌐 Custom Domain Support
+- Connect your own domain
+- SSL/TLS certificates included
+- Unlimited subdomains
+- Automatic DNS configuration
+
+### 📊 Deployment Dashboard
+- Real-time deployment status
+- Build logs & error tracking
+- Performance metrics
+- Deployment history
+
+### 🔐 Security Features
+- JWT-based authentication
+- Environment variable protection
+- Secure GitHub integration
+- Rate limiting
+
+---
+
+## 🛠️ Technology Stack
+
+### **Frontend**
+```
+React 18 • Vite • TypeScript
+Material-UI • Redux Toolkit • Three.js • React Router
+```
+
+### **Backend**
+```
+Node.js 18 • Express.js • PostgreSQL (Supabase)
+JWT Authentication • IPFS Integration • Docker
+```
+
+### **Infrastructure**
+```
+IPFS Network • Pinata • Nginx • PM2 • AWS EC2
+GitHub API • Let's Encrypt
+```
 
 ---
 
 ## ⚡ Quick Start
 
 ### Prerequisites
-- Node.js 18+
-- Git
-- Supabase account (free at [supabase.com](https://supabase.com))
-- Pinata IPFS account (free at [pinata.cloud](https://pinata.cloud))
 
-### 1. Clone Repository
 ```bash
-git clone https://github.com/MeghVyas3132/Web3-Migration-Tool.git
-cd Web3-Migration-Tool
+# Required
+- Node.js 18 or higher
+- Git
+- npm or yarn package manager
+
+# Accounts needed
+- Supabase (free) - https://supabase.com
+- Pinata (free) - https://pinata.cloud
 ```
 
-### 2. Setup Backend
+### 5-Minute Setup
+
 ```bash
+# 1. Clone the repository
+git clone https://github.com/MeghVyas3132/Web3-Migration-Tool.git
+cd Web3-Migration-Tool
+
+# 2. Install backend dependencies
 cd backend
 npm install
 
-# Generate JWT secret
-openssl rand -base64 32
-
-# Copy to .env file
-nano .env
-```
-
-**Edit `backend/.env`:**
-```env
-PORT=5000
-NODE_ENV=development
-
-# Supabase (Get from https://supabase.com)
-SUPABASE_URL=https://xxxxx.supabase.co
-SUPABASE_ANON_KEY=your-anon-key-here
-
-# JWT Secret (paste generated secret above)
-JWT_SECRET=your-generated-secret-here
-JWT_EXPIRE=30d
-
-# Pinata IPFS (Get from https://pinata.cloud)
-# Option 1: Use API Key/Secret
-PINATA_API_KEY=your-api-key
-PINATA_API_SECRET=your-api-secret
-# Option 2: Use JWT (recommended)
-PINATA_JWT=your-jwt-token
-
-# IPFS Gateway
-IPFS_GATEWAY=https://gateway.pinata.cloud/ipfs
-
-# Nginx (for production)
-BASE_DOMAIN=localhost
-NGINX_CONFIG_PATH=/etc/nginx/sites-available
-NGINX_ENABLED_PATH=/etc/nginx/sites-enabled
-```
-
-### 3. Setup Database (Supabase)
-
-1. **Create Supabase Project**
-   - Go to [supabase.com](https://supabase.com)
-   - Create new project
-   - Go to **Settings** → **API**
-   - Copy **Project URL** and **anon public** key
-
-2. **Run Database Schema**
-   - Go to **SQL Editor** in Supabase dashboard
-   - Copy **entire contents** of `backend/supabase-schema.sql`
-   - Paste into SQL Editor and click **RUN**
-   - This creates all tables, indexes, triggers, and security policies in one go
-
-### 4. Setup Frontend
-```bash
+# 3. Install frontend dependencies  
 cd ../frontend
 npm install
 
-# No .env needed for local development!
+# 4. Configure environment (see next section)
+cd ../backend
+cp .env.example .env
+# Edit .env with your Supabase & Pinata credentials
+
+# 5. Start both servers
+# Terminal 1:
+cd backend && npm run dev
+
+# Terminal 2:
+cd frontend && npm run dev
+
+# 6. Open browser
+# Navigate to http://localhost:3000
 ```
 
-### 5. Start Development Servers
+✅ **Done!** Your deployment platform is running locally.
+
+---
+
+## 📖 Complete Setup Guide
+
+### Step 1: Get Supabase Credentials
+
+1. Visit [supabase.com](https://supabase.com) → Sign up → Create project
+2. Go to **Settings** → **API**
+3. Copy these values:
+   ```
+   Project URL → SUPABASE_URL
+   anon public key → SUPABASE_ANON_KEY
+   ```
+4. Go to **SQL Editor** → Paste entire `backend/supabase-schema.sql` → Click **RUN**
+
+### Step 2: Get Pinata IPFS Credentials
+
+1. Visit [pinata.cloud](https://pinata.cloud) → Sign up
+2. Click profile icon → **API Keys** → **+ New Key**
+3. Set permissions:
+   - ✅ `pinFileToIPFS`
+   - ✅ `pinJSONToIPFS`
+4. Copy:
+   ```
+   API Key → PINATA_API_KEY
+   API Secret → PINATA_API_SECRET
+   ```
+
+### Step 3: Generate JWT Secret
+
+```bash
+# Generate cryptographic secret
+openssl rand -base64 32
+
+# Output example (copy this):
+# aB3cD4eF5gH6iJ7kL8mN9oP0qR1sT2uV3wX4yZ5aB6cD7eF8gH9i
+```
+
+### Step 4: Configure Environment
+
+**Backend (`backend/.env`)**:
+```env
+# Server
+PORT=5000
+NODE_ENV=development
+
+# Database
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_ANON_KEY=your-anon-key-here
+
+# Authentication
+JWT_SECRET=your-generated-secret-here
+JWT_EXPIRE=30d
+
+# IPFS Storage
+PINATA_API_KEY=your-api-key
+PINATA_API_SECRET=your-api-secret
+
+# Gateway
+IPFS_GATEWAY=https://gateway.pinata.cloud/ipfs
+
+# Optional - Production
+BASE_DOMAIN=localhost
+```
+
+**Frontend (`frontend/.env`)**:
+```env
+VITE_API_URL=http://localhost:5000
+```
+
+### Step 5: Start Development
+
 ```bash
 # Terminal 1 - Backend
 cd backend
@@ -149,92 +245,87 @@ npm run dev
 # Terminal 2 - Frontend
 cd frontend
 npm run dev
+
+# Terminal 3 - Watch for changes (optional)
+cd backend
+npm run watch
 ```
 
-🎉 **Open** `http://localhost:3000`
-
----
-
-## 📖 Setup Guide
-
-### Getting Supabase Credentials
-
-1. **Sign up** at [supabase.com](https://supabase.com)
-2. **Create project** → Set password → Select region
-3. Go to **Settings** → **API**
-4. Copy:
-   - **Project URL** → `SUPABASE_URL`
-   - **anon public** key → `SUPABASE_ANON_KEY`
-5. Go to **SQL Editor** → Paste `backend/supabase-schema.sql` → **RUN**
-
-### Getting Pinata IPFS Credentials
-
-1. **Sign up** at [pinata.cloud](https://pinata.cloud)
-2. Click your profile → **API Keys**
-3. Click **"New Key"** button
-4. Select permissions:
-   - ✅ **pinFileToIPFS**
-   - ✅ **pinJSONToIPFS**
-5. Name it (e.g., "Web3 Migration Tool")
-6. Click **"Create Key"**
-7. Copy credentials:
-   - **API Key** → `PINATA_API_KEY`
-   - **API Secret** → `PINATA_API_SECRET`
-   - Or use **JWT** → `PINATA_JWT` (recommended)
-
-⚠️ **Important**: Save your API Secret immediately - it's only shown once!
-
-### Generate JWT Secret
-```bash
-openssl rand -base64 32
-# Copy output to JWT_SECRET in .env
-```
+✅ **Access app**: Open http://localhost:3000
 
 ---
 
 ## 🔄 How It Works
 
-### User Workflow
+### User Journey
+
 ```
-1. User pastes GitHub repo URL
-2. Selects branch (main, develop, etc.)
-3. Chooses subdomain name
-4. Clicks "Deploy Now"
+┌─────────────────┐
+│  Enter GitHub   │
+│  Repository URL │
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────┐
+│  Select Branch  │
+│  & Domain Name  │
+└────────┬────────┘
+         │
+         ▼
+    ◉ DEPLOYING
+         │
+         ├─▶ Clone Repository
+         │
+         ├─▶ Detect Framework (React/Vue/Angular)
+         │
+         ├─▶ Install Dependencies
+         │
+         ├─▶ Build Project
+         │
+         ├─▶ Upload to IPFS
+         │
+         ├─▶ Configure Domain
+         │
+         └─▶ Save to Database
+         │
+         ▼
+   ✅ DEPLOYMENT COMPLETE
+   
+Your app is live! 🎉
 ```
 
-### Backend Process
-```
-GitHub URL → Clone Repo → Detect Framework (React/Vue/Angular) →
-Install Dependencies (npm install) → Build Project (npm run build) →
-Upload to IPFS → Get IPFS Hash (CID) → Configure Subdomain →
-Save to Database → Deployment Live! ✅
-```
+### What Happens Behind the Scenes
 
-### What We Support
+| Step | What We Do | Time |
+|------|-----------|------|
+| **Clone** | Download your GitHub repo | 5-10s |
+| **Detect** | Identify React, Vue, etc. | 1s |
+| **Install** | Run `npm install` | 30-60s |
+| **Build** | Compile to optimized bundle | 30-120s |
+| **Upload** | Send to IPFS network | 10-30s |
+| **Config** | Setup domain routing | 5s |
+| **Save** | Record in database | 1s |
 
-#### ✅ Supported Frameworks
-| Framework | Build Command | Build Output |
-|-----------|---------------|--------------|
-| React (CRA) | `npm run build` | `/build` |
-| React (Vite) | `npm run build` | `/dist` |
-| Vue.js | `npm run build` | `/dist` |
-| Angular | `ng build --prod` | `/dist` |
-| Next.js (Static) | `next export` | `/out` |
-| Svelte | `npm run build` | `/public` |
-| HTML/CSS/JS | None | Root |
+### Supported Frameworks
 
-#### ❌ Not Supported (Server-Side)
-- PHP, Python, Ruby backends
-- Next.js with SSR
-- Any server that needs `npm start` in production
+| Framework | Auto-Build | Status |
+|-----------|-----------|--------|
+| React (CRA) | ✅ Yes | ✅ Supported |
+| React (Vite) | ✅ Yes | ✅ Supported |
+| Vue.js 2 & 3 | ✅ Yes | ✅ Supported |
+| Angular 14+ | ✅ Yes | ✅ Supported |
+| Next.js (Static) | ✅ Yes | ✅ Supported |
+| Svelte | ✅ Yes | ✅ Supported |
+| Remix | ⚠️ Partial | ⚠️ Experimental |
+| Astro | ⚠️ Partial | ⚠️ Experimental |
 
 ---
 
-## 📡 API Documentation
+## 📡 API Reference
 
 ### Authentication
 
-**Register**
+#### Register New User
 ```http
 POST /api/v1/auth/register
 Content-Type: application/json
@@ -244,9 +335,16 @@ Content-Type: application/json
   "email": "john@example.com",
   "password": "securepass123"
 }
+
+Response: 201 Created
+{
+  "success": true,
+  "token": "eyJhbGciOiJIUzI1NiIs...",
+  "user": { "id": "...", "username": "johndoe" }
+}
 ```
 
-**Login**
+#### Login
 ```http
 POST /api/v1/auth/login
 Content-Type: application/json
@@ -256,117 +354,149 @@ Content-Type: application/json
   "password": "securepass123"
 }
 
-Response: { "token": "jwt_token_here", "user": {...} }
+Response: 200 OK
+{
+  "success": true,
+  "token": "eyJhbGciOiJIUzI1NiIs...",
+  "user": { "id": "...", "email": "john@example.com" }
+}
 ```
 
 ### Deployments
 
-**Create Deployment**
+#### Create New Deployment
 ```http
 POST /api/v1/deployments
-Authorization: Bearer {token}
+Authorization: Bearer {jwt_token}
 Content-Type: application/json
 
 {
-  "githubUrl": "https://github.com/username/repo",
-  "branch": "main",
-  "subdomain": "my-app"
+  "githubUrl": "https://github.com/username/my-app",
+  "branch": "main"
 }
 
-Response: { "id": "...", "ipfsCID": "QmXyZ...", "status": "building" }
+Response: 201 Created
+{
+  "success": true,
+  "data": {
+    "id": "dep_123...",
+    "ipfsCID": "QmXyZ...",
+    "framework": "react",
+    "status": "active",
+    "githubUrl": "...",
+    "createdAt": "2025-01-15T10:30:00Z"
+  }
+}
 ```
 
-**Get All Deployments**
+#### Get All Deployments
 ```http
 GET /api/v1/deployments
-Authorization: Bearer {token}
+Authorization: Bearer {jwt_token}
+
+Response: 200 OK
+{
+  "success": true,
+  "data": [
+    { "id": "...", "framework": "react", ... },
+    { "id": "...", "framework": "vue", ... }
+  ]
+}
 ```
 
-**Get Single Deployment**
+#### Get Deployment Details
 ```http
 GET /api/v1/deployments/:id
-Authorization: Bearer {token}
+Authorization: Bearer {jwt_token}
+
+Response: 200 OK
+{
+  "success": true,
+  "data": { ... deployment details ... }
+}
 ```
 
-**Delete Deployment**
+#### Delete Deployment
 ```http
 DELETE /api/v1/deployments/:id
-Authorization: Bearer {token}
-```
+Authorization: Bearer {jwt_token}
 
-**Check Subdomain Availability**
-```http
-POST /api/v1/subdomains/verify
-Content-Type: application/json
-
+Response: 200 OK
 {
-  "subdomain": "my-app"
+  "success": true,
+  "message": "Deployment deleted"
 }
-
-Response: { "available": true }
 ```
 
 ---
 
-## 🚀 Deployment to AWS
+## 🚀 Production Deployment
 
-### Prerequisites
+### Deploy to AWS EC2
+
+#### Prerequisites
 - AWS Account
+- EC2 instance (Ubuntu 22.04 LTS, t2.medium or larger)
 - Domain name
 - SSH key pair
 
-### Step 1: Launch EC2 Instance
-```bash
-# Ubuntu 22.04 LTS
-# t2.medium or larger
-# Open ports: 22, 80, 443, 3000, 5000
-```
+#### Installation Steps
 
-### Step 2: Connect and Setup
 ```bash
-ssh -i your-key.pem ubuntu@your-ec2-ip
+# 1. Connect to EC2
+ssh -i your-key.pem ubuntu@your-ec2-public-ip
 
-# Update system
+# 2. Update system
 sudo apt update && sudo apt upgrade -y
 
-# Install Node.js 18
+# 3. Install Node.js 18
 curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-sudo apt install -y nodejs
+sudo apt install -y nodejs git nginx certbot python3-certbot-nginx
 
-# Install Git
-sudo apt install -y git
-
-# Install Nginx
-sudo apt install -y nginx
-
-# Install PM2
+# 4. Install PM2 (process manager)
 sudo npm install -g pm2
-```
 
-### Step 3: Clone and Configure
-```bash
+# 5. Clone repository
 git clone https://github.com/MeghVyas3132/Web3-Migration-Tool.git
 cd Web3-Migration-Tool
 
-# Backend
+# 6. Setup backend
 cd backend
 npm install
 nano .env  # Add production credentials
 
-# Frontend
+# 7. Setup frontend
 cd ../frontend
 npm install
 npm run build
+
+# 8. Start backend with PM2
+cd ../backend
+pm2 start src/server.js --name "web3-backend" --env production
+pm2 save
+pm2 startup
+
+# 9. Configure Nginx
+sudo nano /etc/nginx/sites-available/web3-tool
 ```
 
-### Step 4: Configure Nginx
-```bash
-sudo nano /etc/nginx/sites-available/web3-tool
-
-# Add:
+**Nginx Configuration** (`/etc/nginx/sites-available/web3-tool`):
+```nginx
 server {
     listen 80;
     server_name yourdomain.com;
+
+    # Redirect HTTP to HTTPS
+    return 301 https://$server_name$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    server_name yourdomain.com;
+
+    # SSL certificates (from Let's Encrypt)
+    ssl_certificate /etc/letsencrypt/live/yourdomain.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/yourdomain.com/privkey.pem;
 
     # Frontend
     location / {
@@ -374,157 +504,147 @@ server {
         try_files $uri /index.html;
     }
 
-    # Backend API
-    location /api {
+    # API Proxy
+    location /api/ {
         proxy_pass http://localhost:5000;
         proxy_http_version 1.1;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
     }
 }
+```
 
-# Enable site
+```bash
+# 10. Enable Nginx site
 sudo ln -s /etc/nginx/sites-available/web3-tool /etc/nginx/sites-enabled/
 sudo nginx -t
 sudo systemctl restart nginx
-```
 
-### Step 5: Setup SSL (Let's Encrypt)
-```bash
-sudo apt install -y certbot python3-certbot-nginx
+# 11. Setup SSL (Let's Encrypt)
 sudo certbot --nginx -d yourdomain.com
+
+# 12. Verify everything is running
+pm2 status
+sudo systemctl status nginx
 ```
 
-### Step 6: Start with PM2
-```bash
-cd ~/Web3-Migration-Tool/backend
-pm2 start src/server.js --name web3-backend
-pm2 save
-pm2 startup
-```
-
-### Step 7: Configure DNS
-In your domain registrar (GoDaddy, Namecheap, etc.):
-```
-Type: A
-Name: @
-Value: your-ec2-ip
-TTL: 300
-
-Type: A
-Name: *
-Value: your-ec2-ip
-TTL: 300
-```
-
-🎉 **Your app is live!** Visit `https://yourdomain.com`
+✅ **Production is live**: https://yourdomain.com
 
 ---
 
-## 🔒 Security
+## 🔒 Security & Best Practices
 
-### Environment Variables
-**NEVER commit `.env` files!** They are in `.gitignore`.
-
-### Required Security Steps
-
-1. **Generate Strong JWT Secret**
+### Environment Variable Protection
 ```bash
-openssl rand -base64 32
+# ❌ NEVER do this
+export SUPABASE_KEY=sk_live_abc123xyz
+
+# ✅ DO this
+# Add to .env file (which is in .gitignore)
+SUPABASE_ANON_KEY=sk_live_abc123xyz
 ```
 
-2. **Protect Credentials**
-   - Keep Supabase keys private
-   - Keep Pinata keys private
-   - Use different secrets for dev/prod
+### Database Security
+- ✅ Row-Level Security (RLS) enabled
+- ✅ Prepared statements (prevent SQL injection)
+- ✅ Password hashing with bcrypt
+- ✅ JWT tokens with expiration
 
-3. **Update `.gitignore`**
-```
-.env
-.env.local
-.env.production
-infrastructure/docker/.env
-```
+### API Security
+- ✅ CORS properly configured
+- ✅ Rate limiting on authentication
+- ✅ Input validation on all endpoints
+- ✅ HTTPS enforced in production
 
-4. **AWS Security**
-   - Use IAM roles
-   - Enable CloudWatch logging
-   - Set up security groups properly
-   - Use AWS Secrets Manager for production
-
-### What's Protected
-- ✅ `.env` files gitignored
-- ✅ No hardcoded credentials in code
-- ✅ Passwords hashed with bcrypt
-- ✅ JWT tokens expire after 30 days
-- ✅ CORS configured properly
+### GitHub Integration Security
+- ✅ Only accesses public repositories
+- ✅ No credentials stored
+- ✅ Build output isolated in temp directories
+- ✅ Automatic cleanup after deployment
 
 ---
 
 ## 🐛 Troubleshooting
 
-### Backend won't start
+### Backend Issues
 
-**Error: Cannot connect to database**
+**"Cannot connect to Supabase"**
 ```bash
-# Check Supabase credentials
+# Check credentials
 cat backend/.env | grep SUPABASE
 
 # Test connection
 curl -X GET https://your-project.supabase.co/rest/v1/ \
-  -H "apikey: your-anon-key"
+  -H "apikey: your-key"
 ```
 
-**Error: Port 5000 already in use**
+**"Port 5000 already in use"**
 ```bash
-# Kill process on port 5000
+# Find and kill process
 lsof -ti:5000 | xargs kill -9
+
+# Or use different port
+PORT=5001 npm run dev
 ```
 
-### Frontend issues
+### Frontend Issues
 
-**Blank page**
-- Check browser console for errors
-- Verify backend is running on port 5000
-- Check `VITE_API_URL` in frontend/.env
+**"Blank white page"**
+1. Check browser console: `F12` → Console tab
+2. Verify backend is running: `http://localhost:5000`
+3. Check frontend env: `cat .env`
 
-**3D scene not loading**
-- Three.js works with JavaScript (no TypeScript needed)
-- Check browser WebGL support: visit `get.webgl.org`
+**"API calls failing"**
+1. Verify backend is running: `pm2 status`
+2. Check CORS settings
+3. Verify token is valid
 
-### Deployment issues
+### Deployment Issues
 
-**Build failed**
-- Test build locally first: `npm install && npm run build`
-- Check build logs in deployment details
-- Ensure `package.json` has `build` script
-
-**Clone failed**
-- Repository must be public
-- Check URL format: `https://github.com/user/repo`
-- Try adding `.git`: `https://github.com/user/repo.git`
-
-**IPFS upload failed**
-- Check Pinata credentials
-- Verify project is active on Pinata dashboard
-- Try uploading a small file first
-
-### Common Fixes
+**"Build failed"**
 ```bash
-# Clear node_modules and reinstall
-rm -rf node_modules package-lock.json
+# Test build locally first
 npm install
+npm run build
 
-# Clear PM2 logs
-pm2 flush
-
-# Restart Nginx
-sudo systemctl restart nginx
-
-# Check logs
-pm2 logs
-sudo tail -f /var/log/nginx/error.log
+# Check package.json has build script
+cat package.json | grep "build"
 ```
+
+**"IPFS upload failed"**
+1. Verify Pinata credentials
+2. Check Pinata dashboard for rate limits
+3. Try uploading smaller file
+
+---
+
+## 🤝 Contributing
+
+We'd love your contributions! Here's how:
+
+### Getting Started
+1. Fork the repository
+2. Create feature branch: `git checkout -b feature/my-feature`
+3. Make changes
+4. Commit: `git commit -m 'Add my feature'`
+5. Push: `git push origin feature/my-feature`
+6. Open Pull Request
+
+### Development Guidelines
+- Follow existing code style
+- Write clear commit messages
+- Test changes locally
+- Update documentation
+
+### Areas Needing Help
+- [ ] Support for private repositories
+- [ ] Build caching system
+- [ ] GitLab integration
+- [ ] Real-time deployment logs
+- [ ] Analytics dashboard
+- [ ] Automated testing
 
 ---
 
@@ -532,199 +652,121 @@ sudo tail -f /var/log/nginx/error.log
 
 ```
 Web3-Migration-Tool/
+│
 ├── backend/
 │   ├── src/
 │   │   ├── config/
-│   │   │   ├── supabase.js       # Database connection
-│   │   │   └── ipfs.js           # IPFS client
+│   │   │   ├── supabase.js      # Database connection
+│   │   │   └── ipfs.js          # IPFS client config
 │   │   ├── controllers/
 │   │   │   ├── authController.js
 │   │   │   └── deploymentController.js
 │   │   ├── models/
-│   │   │   ├── User.js           # Supabase user model
-│   │   │   └── Deployment.js     # Supabase deployment model
+│   │   │   ├── User.js
+│   │   │   └── Deployment.js
 │   │   ├── services/
-│   │   │   ├── githubService.js  # GitHub integration
-│   │   │   ├── ipfsService.js    # IPFS uploads
-│   │   │   └── dnsService.js     # Nginx subdomain config
+│   │   │   ├── githubService.js
+│   │   │   ├── ipfsService.js
+│   │   │   └── dnsService.js
 │   │   ├── middleware/
-│   │   │   └── auth.js           # JWT verification
+│   │   │   └── auth.js          # JWT verification
 │   │   ├── routes/
+│   │   │   ├── auth.js
+│   │   │   └── deployments.js
 │   │   └── server.js
-│   ├── .env                       # Your credentials (gitignored)
-│   ├── .env.example               # Template
+│   ├── .env.example
 │   ├── package.json
-│   └── supabase-schema.sql        # Database schema
+│   └── supabase-schema.sql      # Database DDL
 │
 ├── frontend/
 │   ├── src/
 │   │   ├── components/
-│   │   │   ├── Navbar.jsx
-│   │   │   ├── FileUpload.jsx    # GitHub URL input
-│   │   │   ├── Scene3D.jsx       # Three.js 3D scene
-│   │   │   └── DeploymentCard.jsx
 │   │   ├── pages/
-│   │   │   ├── Dashboard.jsx
-│   │   │   ├── DeploymentPage.jsx
-│   │   │   ├── DeploymentDetails.jsx
-│   │   │   ├── Login.jsx
-│   │   │   └── Register.jsx
 │   │   ├── services/
-│   │   │   ├── api.js            # Axios instance
-│   │   │   ├── authService.js
-│   │   │   └── deploymentService.js
 │   │   ├── store/
-│   │   │   ├── store.js          # Redux store
-│   │   │   └── slices/
 │   │   └── App.jsx
+│   ├── .env.example
 │   ├── package.json
 │   └── vite.config.js
 │
-├── infrastructure/
-│   ├── docker/
-│   │   ├── docker-compose.yml
-│   │   └── .env.example
-│   └── scripts/
-│
-└── README.md                      # This file!
+└── README.md                    # This file
 ```
 
 ---
 
-## 🤝 Contributing
-
-We welcome contributions!
-
-### How to Contribute
-
-1. **Fork the repository**
-2. **Create a branch**: `git checkout -b feature/amazing-feature`
-3. **Make changes** and **commit**: `git commit -m 'Add amazing feature'`
-4. **Push**: `git push origin feature/amazing-feature`
-5. **Open a Pull Request**
-
-### Coding Standards
-- Use ESLint configuration provided
-- Write clear commit messages
-- Add comments for complex logic
-- Test your changes locally
-
-### Areas We Need Help
-- [ ] Add support for private GitHub repositories (OAuth)
-- [ ] Implement build caching for faster deployments
-- [ ] Add GitLab and Bitbucket support
-- [ ] Real-time build log streaming
-- [ ] Support for environment variables in deployments
-- [ ] Automated testing improvements
-
----
-
-## 📊 System Architecture
+## 📊 Architecture Diagram
 
 ```
-┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
-│                 │     │                 │     │                 │
-│  React Frontend │────▶│  Express API   │────▶│   Supabase DB   │
-│  (Port 3000)    │     │  (Port 5000)    │     │   (PostgreSQL)  │
-│                 │     │                 │     │                 │
-└─────────────────┘     └─────────────────┘     └─────────────────┘
-                               │
-                               ├─────────────────┐
-                               │                 │
-                               ▼                 ▼
-                    ┌─────────────────┐  ┌──────────────┐
-                    │                 │  │              │
-                    │  GitHub API     │  │  IPFS/Pinata │
-                    │  (Clone Repos)  │  │  (Storage)   │
-                    │                 │  │              │
-                    └─────────────────┘  └──────────────┘
-```
-
-### Deployment Flow
-```
-User Input (GitHub URL) → Clone Repository → Detect Framework →
-Install Dependencies → Build Project → Upload to IPFS →
-Generate IPFS Hash (CID) → Configure Nginx Subdomain →
-Save to Supabase → Return Deployment URL
+┌──────────────────────────────────────────────────────────────┐
+│                    User Interface                             │
+│                   (React 18 + Vite)                           │
+└────────────────────────┬─────────────────────────────────────┘
+                         │ HTTP/HTTPS
+                         ▼
+┌──────────────────────────────────────────────────────────────┐
+│                    REST API Layer                             │
+│              (Express.js + Node.js)                           │
+│  ┌──────────────┐  ┌──────────────┐  ┌────────────────┐    │
+│  │ Auth Routes  │  │ Deploy Routes│  │ Health Check   │    │
+│  └──────────────┘  └──────────────┘  └────────────────┘    │
+└─────┬───────────────────────┬────────────────┬───────────────┘
+      │                       │                │
+      ▼                       ▼                ▼
+┌────────────────┐   ┌──────────────┐   ┌──────────────┐
+│  Supabase      │   │ GitHub API   │   │ Pinata IPFS  │
+│  PostgreSQL    │   │ (Clone/Build)│   │ (Storage)    │
+└────────────────┘   └──────────────┘   └──────────────┘
 ```
 
 ---
 
-## 🎓 Learning Resources
+## 📚 Learning Resources
 
-### For React Beginners
-- [React Official Docs](https://react.dev)
-- [React Router](https://reactrouter.com)
-- [Redux Toolkit](https://redux-toolkit.js.org)
+### Documentation
+- [React Documentation](https://react.dev)
+- [IPFS Docs](https://docs.ipfs.tech/)
+- [Supabase Docs](https://supabase.com/docs)
+- [Express.js Guide](https://expressjs.com/)
 
-### For IPFS/Web3
-- [IPFS Documentation](https://docs.ipfs.tech)
-- [What is IPFS?](https://docs.ipfs.tech/concepts/what-is-ipfs/)
-- [Pinata IPFS](https://docs.pinata.cloud/)
-
-### For Deployment
-- [Nginx Beginner's Guide](https://nginx.org/en/docs/beginners_guide.html)
-- [PM2 Documentation](https://pm2.keymetrics.io/docs/usage/quick-start/)
-- [Let's Encrypt](https://letsencrypt.org/getting-started/)
+### Tutorials
+- [Web3 Introduction](https://ethereum.org/en/developers/docs/web2-vs-web3/)
+- [IPFS Basics](https://docs.ipfs.tech/concepts/what-is-ipfs/)
+- [Decentralized Web](https://decentralized-web.org/)
 
 ---
 
-## 📝 License
+## 📄 License
 
-This project is licensed under the **MIT License** - see below:
+MIT License © 2025 Megh Vyas
 
-```
-MIT License
-
-Copyright (c) 2025 Megh Vyas
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-```
+See [LICENSE](LICENSE) file for details.
 
 ---
 
-## 👨‍💻 Author
+## 👤 Author
 
-**Megh Vyas**  
+**Megh Vyas**
 - GitHub: [@MeghVyas3132](https://github.com/MeghVyas3132)
-- Project: [Web3-Migration-Tool](https://github.com/MeghVyas3132/Web3-Migration-Tool)
+- Twitter: [@MeghVyas](https://twitter.com/MeghVyas)
 
 ---
 
-## 🙏 Acknowledgments
+## 🙌 Support
 
-- **Supabase** - Amazing PostgreSQL database platform
-- **Pinata** - IPFS infrastructure
-- **React Three Fiber** - 3D graphics in React
-- **Material-UI** - Beautiful React components
-- **Vite** - Lightning-fast build tool
-
----
-
-## ⭐ Star History
-
-If this project helped you, please give it a star! ⭐
+If this project helped you, please:
+- ⭐ **Star** the repository
+- 🍴 **Fork** it to your account
+- 📢 **Share** with your network
+- 💬 **Contribute** improvements
 
 ---
 
-<p align="center">
-  <strong>Made with ❤️ for the decentralized web</strong>
-  <br>
-  <sub>Deploy to Web3 in minutes, not hours!</sub>
-</p>
+<div align="center">
+
+### Made with ❤️ for the Decentralized Web
+
+Deploy to Web3 in Seconds, Not Hours
+
+[↑ Back to Top](#-web3-migration-tool)
+
+</div>
